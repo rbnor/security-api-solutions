@@ -79,12 +79,13 @@ def main():
         _handle_timestamp(parsed_event)
 
         for attr in event['Attribute']:
-            if attr['type'] == 'threat-actor':
-                parsed_event['activityGroupNames'].append(attr['value'])
-            if attr['type'] == 'comment':
-                parsed_event['description'] += attr['value']
-            if attr['type'] in MISP_ACTIONABLE_TYPES:
-                parsed_event['request_objects'].append(RequestObject(attr))
+            if attr['to_ids']==True:
+                if attr['type'] == 'threat-actor':
+                    parsed_event['activityGroupNames'].append(attr['value'])
+                if attr['type'] == 'comment':
+                    parsed_event['description'] += attr['value']
+                if attr['type'] in MISP_ACTIONABLE_TYPES:
+                    parsed_event['request_objects'].append(RequestObject(attr))
 
         parsed_events.append(parsed_event)
     del events

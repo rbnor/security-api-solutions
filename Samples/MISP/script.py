@@ -86,7 +86,11 @@ def main():
                     parsed_event['description'] += attr['value']
                 if attr['type'] in MISP_ACTIONABLE_TYPES:
                     parsed_event['request_objects'].append(RequestObject(attr))
-
+        for attr in event['Object']:
+            for keyattr in attr['Attribute']:
+                if keyattr['to_ids']==True:
+                    if keyattr['type'] in MISP_ACTIONABLE_TYPES:
+                        parsed_event['request_objects'].append(RequestObject(keyattr))        
         parsed_events.append(parsed_event)
     del events
 
